@@ -17,15 +17,10 @@ public class BaseTest implements IDriver {
     protected NativePopupsPageObject nativePopupsPageObject;
 
     private static AppiumDriver appiumDriver; // singleton
-    IPageObject po;
 
     @Override
     public AppiumDriver getDriver() {
         return appiumDriver;
-    }
-
-    public IPageObject getPo() {
-        return po;
     }
 
     @Parameters({"platformName", "appType", "deviceName", "browserName", "app"})
@@ -35,30 +30,12 @@ public class BaseTest implements IDriver {
         System.out.println("Before: app type - " + appType);
         setAppiumDriver(platformName, deviceName, browserName, app);
         setPageObject(appType, appiumDriver);
-
     }
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() throws Exception {
         System.out.println("After");
         appiumDriver.closeApp();
-    }
-
-    @Parameters("appType")
-    @BeforeMethod
-    public void setUp(String appType) throws Exception {
-        switch (appType) {
-            case "web":
-                webPageObject = new WebPageObject(appiumDriver);
-                break;
-            case "native":
-                nativeLoginPageObject = new NativeLoginPageObject(appiumDriver);
-                nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
-                nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
-                break;
-            default:
-                throw new Exception("Can't create a page objects for " + appType);
-        }
     }
 
     private void setAppiumDriver(String platformName, String deviceName,
@@ -84,8 +61,19 @@ public class BaseTest implements IDriver {
         appiumDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 
     }
-
+//
     private void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {
-        po = new PageObject(appType, appiumDriver);
+        switch (appType) {
+            case "web":
+                webPageObject = new WebPageObject(appiumDriver);
+                break;
+            case "native":
+                nativeLoginPageObject = new NativeLoginPageObject(appiumDriver);
+                nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
+                nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
+                break;
+            default:
+                throw new Exception("Can't create a page objects for " + appType);
+        }
     }
 }

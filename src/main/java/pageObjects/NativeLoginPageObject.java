@@ -8,8 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 @Getter
-public class NativeLoginPageObject {
-
+public class NativeLoginPageObject extends AbstractPageObject {
     private static final String packageName = "platkovsky.alexey.epamtestapp:";
     @AndroidFindBy(id = packageName + "id/login_email")
     private WebElement emailField;
@@ -17,12 +16,11 @@ public class NativeLoginPageObject {
     private WebElement passwordField;
     @AndroidFindBy(id = packageName + "id/email_sign_in_button")
     private WebElement signInBtn;
-//    @AndroidFindBy(id = "register_button")
-//    private WebElement registerNewAccountBtn;
     @AndroidFindBy(id = packageName + "id/register_button")
     private WebElement registerNewAccountBtn;
 
     public NativeLoginPageObject(AppiumDriver appiumDriver) {
+        this.appiumDriver = appiumDriver;
         PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
     }
 }

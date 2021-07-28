@@ -8,13 +8,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 @Getter
-public class NativePopupsPageObject {
+public class NativePopupsPageObject extends AbstractPageObject {
 
     private static final String packageName = "platkovsky.alexey.epamtestapp:";
     @AndroidFindBy(id = packageName + "id/autofill_dataset_list")
     private WebElement emailAutofillPopup;
 
     public NativePopupsPageObject(AppiumDriver appiumDriver) {
+        this.appiumDriver = appiumDriver;
         PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
     }
 }

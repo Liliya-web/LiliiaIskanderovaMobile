@@ -24,7 +24,6 @@ public class nativeMobileTests extends BaseTest {
         nativeRegistrationPageObject.getRegistrationConfirmPasswordField().sendKeys(credentialsGenerating.password);
         System.out.println("Registration fields filled");
         nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
-        getPo().getWelement("registerNewAccountBtn").click();
         System.out.println("Register new account button at registration page clicked");
     }
 

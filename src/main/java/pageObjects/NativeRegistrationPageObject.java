@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 @Getter
-public class NativeRegistrationPageObject {
+public class NativeRegistrationPageObject extends AbstractPageObject {
     private static final String packageName = "platkovsky.alexey.epamtestapp:";
     @AndroidFindBy(id = packageName + "id/registration_email")
     private WebElement registrationEmailField;
@@ -22,6 +22,7 @@ public class NativeRegistrationPageObject {
     private WebElement registerNewAccountBtn;
 
     public NativeRegistrationPageObject(AppiumDriver appiumDriver) {
+        this.appiumDriver = appiumDriver;
         PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
     }
 }
