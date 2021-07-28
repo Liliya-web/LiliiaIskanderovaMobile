@@ -3,7 +3,7 @@ package setup;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.*;
-import pageObjects.PageObject;
+import pageObjects.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -11,6 +11,10 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest implements IDriver {
+    protected WebPageObject webPageObject;
+    protected NativeLoginPageObject nativeLoginPageObject;
+    protected NativeRegistrationPageObject nativeRegistrationPageObject;
+    protected NativePopupsPageObject nativePopupsPageObject;
 
     private static AppiumDriver appiumDriver; // singleton
     IPageObject po;
@@ -40,13 +44,30 @@ public class BaseTest implements IDriver {
         appiumDriver.closeApp();
     }
 
+    @Parameters("appType")
+    @BeforeMethod
+    public void setUp(String appType) throws Exception {
+        switch (appType) {
+            case "web":
+                webPageObject = new WebPageObject(appiumDriver);
+                break;
+            case "native":
+                nativeLoginPageObject = new NativeLoginPageObject(appiumDriver);
+                nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
+                nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
+                break;
+            default:
+                throw new Exception("Can't create a page objects for " + appType);
+        }
+    }
+
     private void setAppiumDriver(String platformName, String deviceName,
                                  String browserName, String app) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         //mandatory Android capabilities
         capabilities.setCapability("platformName", platformName);
         capabilities.setCapability("deviceName", deviceName);
-        capabilities.setCapability("ignoreHiddenApiPolicyError", "true");
+//        capabilities.setCapability("ignoreHiddenApiPolicyError", "true");
 
         if (app.endsWith(".apk")) capabilities.setCapability("app", (new File(app)).getAbsolutePath());
 
@@ -60,13 +81,11 @@ public class BaseTest implements IDriver {
         }
 
         // Timeouts tuning
-        appiumDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        appiumDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 
     }
 
     private void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {
         po = new PageObject(appType, appiumDriver);
     }
-
-
 }

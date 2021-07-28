@@ -3,17 +3,18 @@ package pageObjects;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
-public class NativePageObject  {
+@Getter
+public class NativePopupsPageObject {
 
-    @AndroidFindBy(id = "platkovsky.alexey.epamtestapp:id/email_sign_in_button")
-    WebElement signInBtn;
+    private static final String packageName = "platkovsky.alexey.epamtestapp:";
+    @AndroidFindBy(id = packageName + "id/autofill_dataset_list")
+    private WebElement emailAutofillPopup;
 
-    public NativePageObject(AppiumDriver appiumDriver) {
+    public NativePopupsPageObject(AppiumDriver appiumDriver) {
         PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
     }
-
-
 }

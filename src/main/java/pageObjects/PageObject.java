@@ -18,7 +18,7 @@ public class PageObject implements IPageObject {
                 somePageObject = new WebPageObject(appiumDriver);
                 break;
             case "native":
-                somePageObject = new NativePageObject(appiumDriver);
+                somePageObject = new NativeLoginPageObject(appiumDriver);
                 break;
             default: throw new Exception("Can't create a page object for "+appType);
         }
