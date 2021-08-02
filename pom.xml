@@ -15,6 +15,9 @@
         <maven-compiler-plugin.target>1.8</maven-compiler-plugin.target>
         <javafaker.version>1.0.2</javafaker.version>
         <lombok.version>1.18.20</lombok.version>
+        <hamcrest-core.version>2.2</hamcrest-core.version>
+        <assertj-core.version>3.19.0</assertj-core.version>
+        <tess4j.version>4.5.5</tess4j.version>
     </properties>
 
     <dependencies>
@@ -38,6 +41,17 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>${tess4j.version}</version>
         </dependency>
     </dependencies>
 

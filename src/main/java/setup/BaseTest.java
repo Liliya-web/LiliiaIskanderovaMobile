@@ -15,6 +15,7 @@ public class BaseTest implements IDriver {
     protected NativeLoginPageObject nativeLoginPageObject;
     protected NativeRegistrationPageObject nativeRegistrationPageObject;
     protected NativePopupsPageObject nativePopupsPageObject;
+    protected BudgetActivityPageObject budgetActivityPageObject;
 
     private static AppiumDriver appiumDriver; // singleton
 
@@ -23,23 +24,43 @@ public class BaseTest implements IDriver {
         return appiumDriver;
     }
 
-    @Parameters({"platformName", "appType", "deviceName", "browserName", "app"})
-    @BeforeSuite(alwaysRun = true)
-    public void setUp(String platformName, String appType, String deviceName, @Optional("") String browserName,
-                      @Optional("") String app) throws Exception {
-        System.out.println("Before: app type - " + appType);
+//    @Parameters({"platformName", "deviceName", "browserName", "app"})
+//    @BeforeSuite(alwaysRun = true)
+//    public void setUp(String platformName, String deviceName, @Optional("") String browserName,
+//                      @Optional("") String app) throws Exception {
+//        System.out.println("Before: setting up Appium Driver");
+//        setAppiumDriver(platformName, deviceName, browserName, app);
+//    }
+
+    @Parameters({"platformName", "deviceName", "browserName", "app", "appType"})
+    @BeforeMethod(alwaysRun = true)
+    public void setUp(String platformName, String deviceName, @Optional("") String browserName,
+                      @Optional("") String app, String appType) throws Exception {
+        System.out.println("Before: setting up Appium Driver");
         setAppiumDriver(platformName, deviceName, browserName, app);
-        setPageObject(appType, appiumDriver);
+        System.out.println("Before: app type - " + appType);
+        switch (appType) {
+            case "web":
+                webPageObject = new WebPageObject(appiumDriver);
+                break;
+            case "native":
+                nativeLoginPageObject = new NativeLoginPageObject(appiumDriver);
+                nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
+                nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
+                budgetActivityPageObject = new BudgetActivityPageObject(appiumDriver);
+                break;
+            default:
+                throw new Exception("Can't create a page objects for " + appType);
+        }
     }
 
-    @AfterSuite(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
         System.out.println("After");
         appiumDriver.closeApp();
     }
 
-    private void setAppiumDriver(String platformName, String deviceName,
-                                 String browserName, String app) {
+    private void setAppiumDriver(String platformName, String deviceName, String browserName, String app) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         //mandatory Android capabilities
         capabilities.setCapability("platformName", platformName);
@@ -58,22 +79,7 @@ public class BaseTest implements IDriver {
         }
 
         // Timeouts tuning
-        appiumDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        appiumDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-    }
-//
-    private void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {
-        switch (appType) {
-            case "web":
-                webPageObject = new WebPageObject(appiumDriver);
-                break;
-            case "native":
-                nativeLoginPageObject = new NativeLoginPageObject(appiumDriver);
-                nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
-                nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
-                break;
-            default:
-                throw new Exception("Can't create a page objects for " + appType);
-        }
     }
 }

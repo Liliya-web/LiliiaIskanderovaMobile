@@ -1,27 +1,28 @@
 package scenarios;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 
 public class webMobileTests extends BaseTest {
 
-    @Test(groups = {"web"}, description = "Make sure that we've opened IANA homepage")
-    public void simpleWebTest() throws InterruptedException {
-        getDriver().get("http://iana.org"); // open IANA homepage
-
-        // Make sure that page has been loaded completely
-        new WebDriverWait(getDriver(), 10).until(
-                wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")
-        );
-
-        // Check IANA homepage title
-        assert ((WebDriver) getDriver()).getTitle().equals("Internet Assigned Numbers Authority") : "This is not IANA homepage";
+    @Test(groups = {"web"}, description = "Make sure that Google search results for key word EPAM are relevant")
+    public void searchEPAMByGoogleTest() throws InterruptedException {
+        final String textToSearch = "EPAM";
+        getDriver().get("http://google.com"); // open Google Search page
+        webPageObject.getGoogleSearchField().sendKeys(textToSearch);
+        webPageObject.getGoogleSearchButton().click();
+        // Check Google search results
+        System.out.println("Checking google search results");
+        SoftAssertions softAssertions = new SoftAssertions();
+        webPageObject.getGoogleSearchResults().forEach(searchResult ->
+                softAssertions.assertThat(searchResult.getText())
+                        .as("The search result not contains" + textToSearch)
+                        .contains(textToSearch));
+        softAssertions.assertAll();
 
         // Log that test finished
-        System.out.println("Site opening done");
+        System.out.println("Search results asserted");
     }
 
 }
