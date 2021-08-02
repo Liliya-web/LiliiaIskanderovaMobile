@@ -24,20 +24,17 @@ public class BaseTest implements IDriver {
         return appiumDriver;
     }
 
-//    @Parameters({"platformName", "deviceName", "browserName", "app"})
-//    @BeforeSuite(alwaysRun = true)
-//    public void setUp(String platformName, String deviceName, @Optional("") String browserName,
-//                      @Optional("") String app) throws Exception {
-//        System.out.println("Before: setting up Appium Driver");
-//        setAppiumDriver(platformName, deviceName, browserName, app);
-//    }
-
-    @Parameters({"platformName", "deviceName", "browserName", "app", "appType"})
-    @BeforeMethod(alwaysRun = true)
+    @Parameters({"platformName", "deviceName", "browserName", "app"})
+    @BeforeSuite(alwaysRun = true)
     public void setUp(String platformName, String deviceName, @Optional("") String browserName,
-                      @Optional("") String app, String appType) throws Exception {
+                      @Optional("") String app) throws Exception {
         System.out.println("Before: setting up Appium Driver");
         setAppiumDriver(platformName, deviceName, browserName, app);
+    }
+
+    @Parameters("appType")
+    @BeforeMethod(alwaysRun = true)
+    public void setUp(String appType) throws Exception {
         System.out.println("Before: app type - " + appType);
         switch (appType) {
             case "web":
@@ -48,13 +45,14 @@ public class BaseTest implements IDriver {
                 nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
                 nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
                 budgetActivityPageObject = new BudgetActivityPageObject(appiumDriver);
+                appiumDriver.navigate().back();
                 break;
             default:
                 throw new Exception("Can't create a page objects for " + appType);
         }
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterSuite(alwaysRun = true)
     public void tearDown() throws Exception {
         System.out.println("After");
         appiumDriver.closeApp();
@@ -65,7 +63,7 @@ public class BaseTest implements IDriver {
         //mandatory Android capabilities
         capabilities.setCapability("platformName", platformName);
         capabilities.setCapability("deviceName", deviceName);
-//        capabilities.setCapability("ignoreHiddenApiPolicyError", "true");
+        capabilities.setCapability("ignoreHiddenApiPolicyError", "true");
 
         if (app.endsWith(".apk")) capabilities.setCapability("app", (new File(app)).getAbsolutePath());
 
