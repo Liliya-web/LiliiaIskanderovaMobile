@@ -9,11 +9,11 @@ import testData.DataProvider;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class nativeMobileTests extends BaseTest {
-    @Test(groups = {"native"}, description = "Test checks an ability to register and log in",
+    @Test(groups = {"native"}, description = "Test checks an ability to register and log in with email and password",
             dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
-    public void registerAndLoginWithEmailAndPasswordNativeTest(String email, String userName, String password)
+    public void registerAndLoginWithEmailAndPasswordNativeTest(String email, String userName, String password,
+                                                               String finalPageName)
             throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        final String budgetActivity = "BudgetActivity";
         registerNewAccount(email, userName, password);
         System.out.println("Logging in");
         nativeLoginPageObject.getEmailField().sendKeys(email);
@@ -23,17 +23,17 @@ public class nativeMobileTests extends BaseTest {
         (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions
                 .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
-                .as("User is not on" + budgetActivity + "page").isEqualTo(budgetActivity);
+                .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
         System.out.println("Page verified");
         navigateBackAndClearLoginPageFields();
         System.out.println("Test DONE");
     }
 
-    @Test(groups = {"native"}, description = "Test checks an ability to register and log in",
+    @Test(groups = {"native"}, description = "Test checks an ability to register and log in with username and password",
             dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
-    public void registerAndLoginWithUsernameAndPasswordNativeTest(String email, String userName, String password)
+    public void registerAndLoginWithUsernameAndPasswordNativeTest(String email, String userName, String password,
+                                                                  String finalPageName)
             throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        final String budgetActivity = "BudgetActivity";
         registerNewAccount(email, userName, password);
         System.out.println("Logging in");
         nativeLoginPageObject.getEmailField().sendKeys(userName);
@@ -43,7 +43,7 @@ public class nativeMobileTests extends BaseTest {
         (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions
                 .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
-                .as("User is not on" + budgetActivity + "page").isEqualTo(budgetActivity);
+                .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
         System.out.println("Page verified");
         navigateBackAndClearLoginPageFields();
         System.out.println("Test DONE");

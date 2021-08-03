@@ -5,7 +5,8 @@ public class DataProvider {
     public static Object[][] registerAndLoginDataProvider() {
         CredentialsGenerating credentialsGenerating = new CredentialsGenerating();
         return new Object[][]{
-                {credentialsGenerating.email, credentialsGenerating.userName, credentialsGenerating.password}
+                {credentialsGenerating.email, credentialsGenerating.userName,
+                        credentialsGenerating.password, "BudgetActivity"}
         };
     }
 
