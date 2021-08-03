@@ -1,22 +1,10 @@
 package scenarios;
 
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 import testData.DataProvider;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,9 +25,7 @@ public class nativeMobileTests extends BaseTest {
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
                 .as("User is not on" + budgetActivity + "page").isEqualTo(budgetActivity);
         System.out.println("Page verified");
-        getDriver().navigate().back();
-        nativeLoginPageObject.getEmailField().clear();
-        nativeLoginPageObject.getPasswordField().clear();
+        navigateBackAndLoginPageClearFields();
         System.out.println("Test DONE");
     }
 
@@ -59,9 +45,7 @@ public class nativeMobileTests extends BaseTest {
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
                 .as("User is not on" + budgetActivity + "page").isEqualTo(budgetActivity);
         System.out.println("Page verified");
-        getDriver().navigate().back();
-        nativeLoginPageObject.getEmailField().clear();
-        nativeLoginPageObject.getPasswordField().clear();
+        navigateBackAndLoginPageClearFields();
         System.out.println("Test DONE");
     }
 
@@ -110,5 +94,11 @@ public class nativeMobileTests extends BaseTest {
         System.out.println("Register new account");
         nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
         System.out.println("New account is registered");
+    }
+
+    private void navigateBackAndLoginPageClearFields() {
+        getDriver().navigate().back();
+        nativeLoginPageObject.getEmailField().clear();
+        nativeLoginPageObject.getPasswordField().clear();
     }
 }
