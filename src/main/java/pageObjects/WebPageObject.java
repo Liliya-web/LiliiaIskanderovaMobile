@@ -14,7 +14,7 @@ public class WebPageObject extends AbstractPageObject {
     private WebElement googleSearchField;
     @FindBy(xpath = "//form[@name=\"gs\"]//li[1]/div[1]")
     private WebElement googleSearchButton;
-    @FindBy(xpath = "//div[@id=\"rso\"]/div/div/div/div[1]/div/a/div[2]/div")
+    @FindBy(xpath = "//div[@id=\"rso\"]/div/div/div/div[1]//a/div[2]/div")
     private List<WebElement> googleSearchResults;
 
     public WebPageObject(AppiumDriver appiumDriver) {

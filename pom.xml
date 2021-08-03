@@ -17,7 +17,8 @@
         <lombok.version>1.18.20</lombok.version>
         <hamcrest-core.version>2.2</hamcrest-core.version>
         <assertj-core.version>3.19.0</assertj-core.version>
-        <tess4j.version>4.5.5</tess4j.version>
+        <tess4j.version>4.3.1</tess4j.version>
+        <log4j-slf4j-impl.version>2.14.1</log4j-slf4j-impl.version>
     </properties>
 
     <dependencies>
@@ -53,6 +54,13 @@
             <artifactId>tess4j</artifactId>
             <version>${tess4j.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-slf4j-impl</artifactId>-->
+<!--            <version>${log4j-slf4j-impl.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>

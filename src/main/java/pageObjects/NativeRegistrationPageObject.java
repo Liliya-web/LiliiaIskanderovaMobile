@@ -18,6 +18,8 @@ public class NativeRegistrationPageObject extends AbstractPageObject {
     private WebElement registrationPasswordField;
     @AndroidFindBy(id = packageName + "id/registration_confirm_password")
     private WebElement registrationConfirmPasswordField;
+    @AndroidFindBy(xpath = "//android.widget.CheckedTextView")
+    private WebElement confirmationCheckbox;
     @AndroidFindBy(id = packageName + "id/register_new_account_button")
     private WebElement registerNewAccountBtn;
 
