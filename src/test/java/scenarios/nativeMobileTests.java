@@ -26,19 +26,8 @@ public class nativeMobileTests extends BaseTest {
     public void registerAndLoginWithEmailAndPasswordNativeTest(String email, String userName, String password)
             throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         final String budgetActivity = "BudgetActivity";
-        System.out.println("Click Register new account button at login page");
-        nativeLoginPageObject.getRegisterNewAccountBtn().click();
-
-        System.out.println("Fill registration fields");
-        nativeRegistrationPageObject.getRegistrationEmailField().sendKeys(email);
-        nativeRegistrationPageObject.getRegistrationUsernameField().sendKeys(userName);
-        nativeRegistrationPageObject.getRegistrationPasswordField().sendKeys(password);
-        nativeRegistrationPageObject.getRegistrationConfirmPasswordField().sendKeys(password);
-        nativeRegistrationPageObject.getConfirmationCheckbox().click();
-        System.out.println("Register new account");
-        nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
-
-        System.out.println("New account registered\nLogging in");
+        registerNewAccount(email, userName, password);
+        System.out.println("Logging in");
         nativeLoginPageObject.getEmailField().sendKeys(email);
         nativeLoginPageObject.getPasswordField().sendKeys(password);
         nativeLoginPageObject.getSignInBtn().click();
@@ -59,19 +48,8 @@ public class nativeMobileTests extends BaseTest {
     public void registerAndLoginWithUsernameAndPasswordNativeTest(String email, String userName, String password)
             throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         final String budgetActivity = "BudgetActivity";
-        System.out.println("Click Register new account button at login page");
-        nativeLoginPageObject.getRegisterNewAccountBtn().click();
-
-        System.out.println("Fill registration fields");
-        nativeRegistrationPageObject.getRegistrationEmailField().sendKeys(email);
-        nativeRegistrationPageObject.getRegistrationUsernameField().sendKeys(userName);
-        nativeRegistrationPageObject.getRegistrationPasswordField().sendKeys(password);
-        nativeRegistrationPageObject.getRegistrationConfirmPasswordField().sendKeys(password);
-        nativeRegistrationPageObject.getConfirmationCheckbox().click();
-        System.out.println("Register new account");
-        nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
-
-        System.out.println("New account registered\nLogging in");
+        registerNewAccount(email, userName, password);
+        System.out.println("Logging in");
         nativeLoginPageObject.getEmailField().sendKeys(userName);
         nativeLoginPageObject.getPasswordField().sendKeys(password);
         nativeLoginPageObject.getSignInBtn().click();
@@ -119,4 +97,18 @@ public class nativeMobileTests extends BaseTest {
 ////                .contains(expectedMessage);
 ////        System.out.println("Message verified\nTest DONE");
 //    }
+
+    private void registerNewAccount(String email, String userName, String password) {
+        System.out.println("Click Register new account button at login page");
+        nativeLoginPageObject.getRegisterNewAccountBtn().click();
+        System.out.println("Fill registration fields");
+        nativeRegistrationPageObject.getRegistrationEmailField().sendKeys(email);
+        nativeRegistrationPageObject.getRegistrationUsernameField().sendKeys(userName);
+        nativeRegistrationPageObject.getRegistrationPasswordField().sendKeys(password);
+        nativeRegistrationPageObject.getRegistrationConfirmPasswordField().sendKeys(password);
+        nativeRegistrationPageObject.getConfirmationCheckbox().click();
+        System.out.println("Register new account");
+        nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
+        System.out.println("New account is registered");
+    }
 }
