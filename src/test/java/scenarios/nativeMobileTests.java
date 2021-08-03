@@ -25,7 +25,7 @@ public class nativeMobileTests extends BaseTest {
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
                 .as("User is not on" + budgetActivity + "page").isEqualTo(budgetActivity);
         System.out.println("Page verified");
-        navigateBackAndLoginPageClearFields();
+        navigateBackAndClearLoginPageFields();
         System.out.println("Test DONE");
     }
 
@@ -45,7 +45,7 @@ public class nativeMobileTests extends BaseTest {
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
                 .as("User is not on" + budgetActivity + "page").isEqualTo(budgetActivity);
         System.out.println("Page verified");
-        navigateBackAndLoginPageClearFields();
+        navigateBackAndClearLoginPageFields();
         System.out.println("Test DONE");
     }
 
@@ -96,7 +96,7 @@ public class nativeMobileTests extends BaseTest {
         System.out.println("New account is registered");
     }
 
-    private void navigateBackAndLoginPageClearFields() {
+    private void navigateBackAndClearLoginPageFields() {
         getDriver().navigate().back();
         nativeLoginPageObject.getEmailField().clear();
         nativeLoginPageObject.getPasswordField().clear();
