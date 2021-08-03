@@ -17,7 +17,7 @@ public class webMobileTests extends BaseTest {
         SoftAssertions softAssertions = new SoftAssertions();
         webPageObject.getGoogleSearchResults().forEach(searchResult ->
                 softAssertions.assertThat(searchResult.getText())
-                        .as("The search result not contains" + textToSearch)
+                        .as("The search result '" + searchResult.getText() + "' not contains '" + textToSearch + "'")
                         .contains(textToSearch));
         softAssertions.assertAll();
 
