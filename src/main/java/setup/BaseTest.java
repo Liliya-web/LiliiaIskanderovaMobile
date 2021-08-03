@@ -45,7 +45,6 @@ public class BaseTest implements IDriver {
                 nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
                 nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
                 budgetActivityPageObject = new BudgetActivityPageObject(appiumDriver);
-                appiumDriver.navigate().back();
                 break;
             default:
                 throw new Exception("Can't create a page objects for " + appType);
