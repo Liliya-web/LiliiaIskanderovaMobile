@@ -1,10 +1,19 @@
 package scenarios;
 
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 import testData.DataProvider;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -58,6 +67,8 @@ public class nativeMobileTests extends BaseTest {
 //        nativeLoginPageObject.getSignInBtn().click();
 //        System.out.println("Sign in button clicked\nVerifying that message '" + expectedMessage + "' appears");
 //        File file = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+////        String filePath = "target/screenshots/screenshot.png";
+////        FileUtils.copyFile(file, new File(filePath));
 //        System.out.println("Screenshot took");
 //        Tesseract tesseract = new Tesseract();
 //        tesseract.setDatapath("src/main/resources/tessdata");
@@ -66,6 +77,9 @@ public class nativeMobileTests extends BaseTest {
 //        assertThat(tesseract.doOCR(file))
 //                .as("'" + expectedMessage + "' was not found on the page")
 //                .contains(expectedMessage);
+////        assertThat(tesseract.doOCR(new File(filePath)))
+////                .as("'" + expectedMessage + "' was not found on the page")
+////                .contains(expectedMessage);
 //        System.out.println("Message verified\nTest DONE");
 //
 ////        Rectangle screenRectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
