@@ -65,14 +65,6 @@ public class BaseTest implements IDriver {
         }
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        System.out.println("After method: navigate back and clear fields");
-        getDriver().navigate().back();
-        nativeLoginPageObject.getEmailField().clear();
-        nativeLoginPageObject.getPasswordField().clear();
-    }
-
     @AfterSuite(alwaysRun = true)
     public void closeDriver() throws Exception {
         System.out.println("After");
