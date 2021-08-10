@@ -94,7 +94,7 @@ public class nativeMobileTests extends BaseTest {
 ////                .as("'" + expectedMessage + "' was not found on the page")
 ////                .contains(expectedMessage);
 ////        System.out.println("Message verified\nTest DONE");
-    }
+//    }
 
     private void registerNewAccount(String email, String userName, String password) {
         System.out.println("Click Register new account button at login page");
