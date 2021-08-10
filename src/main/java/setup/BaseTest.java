@@ -6,16 +6,26 @@ import org.testng.annotations.*;
 import pageObjects.*;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
+import static java.lang.String.format;
+import static propertyLoader.PropertyLoader.getProperties;
 
 public class BaseTest implements IDriver {
     protected WebPageObject webPageObject;
     protected NativeLoginPageObject nativeLoginPageObject;
     protected NativeRegistrationPageObject nativeRegistrationPageObject;
-    protected NativePopupsPageObject nativePopupsPageObject;
     protected BudgetActivityPageObject budgetActivityPageObject;
+    private static final Properties envProperties = getProperties();
+    private static final String PROJECT_NAME = envProperties.getProperty("PROJECT.NAME");
+    private static final String TOKEN = envProperties.getProperty("TOKEN");
+    private static final String APPIUM_HUB = envProperties.getProperty("APPIUM.HUB");
 
     private static AppiumDriver appiumDriver; // singleton
 
@@ -24,12 +34,17 @@ public class BaseTest implements IDriver {
         return appiumDriver;
     }
 
-    @Parameters({"platformName", "deviceName", "browserName", "app"})
+    @Parameters({"platformName", "deviceName", "udid", "browserName", "app", "appPackage", "appActivity", "bundleId"})
     @BeforeSuite(alwaysRun = true)
-    public void setUp(String platformName, String deviceName, @Optional("") String browserName,
-                      @Optional("") String app) throws Exception {
-        System.out.println("Before: setting up Appium Driver");
-        setAppiumDriver(platformName, deviceName, browserName, app);
+    public void setUp(String platformName,
+                      @Optional("") String deviceName,
+                      @Optional("") String udid,
+                      @Optional("") String browserName,
+                      @Optional("") String app,
+                      @Optional("") String appPackage,
+                      @Optional("") String appActivity,
+                      @Optional("") String bundleId) throws Exception {
+        setAppiumDriver(platformName, deviceName, udid, browserName, app, appPackage, appActivity, bundleId);
     }
 
     @Parameters("appType")
@@ -43,7 +58,6 @@ public class BaseTest implements IDriver {
             case "native":
                 nativeLoginPageObject = new NativeLoginPageObject(appiumDriver);
                 nativeRegistrationPageObject = new NativeRegistrationPageObject(appiumDriver);
-                nativePopupsPageObject = new NativePopupsPageObject(appiumDriver);
                 budgetActivityPageObject = new BudgetActivityPageObject(appiumDriver);
                 break;
             default:
@@ -51,17 +65,27 @@ public class BaseTest implements IDriver {
         }
     }
 
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() {
+        System.out.println("After method: navigate back and clear fields");
+        getDriver().navigate().back();
+        nativeLoginPageObject.getEmailField().clear();
+        nativeLoginPageObject.getPasswordField().clear();
+    }
+
     @AfterSuite(alwaysRun = true)
-    public void tearDown() throws Exception {
+    public void closeDriver() throws Exception {
         System.out.println("After");
         appiumDriver.closeApp();
     }
 
-    private void setAppiumDriver(String platformName, String deviceName, String browserName, String app) {
+    private void setAppiumDriver(String platformName, String deviceName, String udid, String browserName,
+                                 String app, String appPackage, String appActivity, String bundleId) throws UnsupportedEncodingException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        //mandatory Android capabilities
+        // mandatory Android capabilities
         capabilities.setCapability("platformName", platformName);
         capabilities.setCapability("deviceName", deviceName);
+        capabilities.setCapability("udid", udid);
         capabilities.setCapability("ignoreHiddenApiPolicyError", "true");
 
         if (app.endsWith(".apk")) capabilities.setCapability("app", (new File(app)).getAbsolutePath());
@@ -69,14 +93,23 @@ public class BaseTest implements IDriver {
         capabilities.setCapability("browserName", browserName);
         capabilities.setCapability("chromedriverDisableBuildCheck", "true");
 
+        // Capabilities for test of Android native app on EPAM Mobile Cloud
+        capabilities.setCapability("appPackage", appPackage);
+        capabilities.setCapability("appActivity", appActivity);
+
+        // Capabilities for test of iOS native app on EPAM Mobile Cloud
+        capabilities.setCapability("bundleId", bundleId);
+        if (platformName.equals("iOS")) capabilities.setCapability("automationName", "XCUITest");
+
+        String token = URLEncoder.encode(TOKEN, StandardCharsets.UTF_8.name());
+        System.out.println("Before: setting up Appium Driver");
         try {
-            appiumDriver = new AppiumDriver(new URL(System.getProperty("ts.appium")), capabilities);
+            appiumDriver = new AppiumDriver(new URL(
+                    format("https://%s:%s@%s/wd/hub", PROJECT_NAME, token, APPIUM_HUB)), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         // Timeouts tuning
-        appiumDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-
+        appiumDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
     }
 }

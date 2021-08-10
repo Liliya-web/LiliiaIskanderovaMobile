@@ -54,13 +54,6 @@
             <artifactId>tess4j</artifactId>
             <version>${tess4j.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.logging.log4j</groupId>-->
-<!--            <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--            <version>${log4j-slf4j-impl.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-
     </dependencies>
 
     <build>
@@ -73,9 +66,6 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suite.file}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <systemPropertyVariables>
-                        <ts.appium>http://localhost:4723/wd/hub</ts.appium>
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
@@ -99,7 +89,6 @@
                 <suite.file>src/test/resources/nativeTNG.xml</suite.file>
             </properties>
         </profile>
-
         <profile>
             <id>web</id>
             <activation>
@@ -109,7 +98,41 @@
                 <suite.file>./src/test/resources/webTNG.xml</suite.file>
             </properties>
         </profile>
+        <profile>
+            <id>webAndroidCloud</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <suite.file>./src/test/resources/webAndroidCloudTNG.xml</suite.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>webIOSCloud</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <suite.file>./src/test/resources/webIOSCloudTNG.xml</suite.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>nativeAndroidCloud</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <suite.file>./src/test/resources/nativeAndroidCloudTNG.xml</suite.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>nativeIOSCloud</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <suite.file>./src/test/resources/nativeIOSCloudTNG.xml</suite.file>
+            </properties>
+        </profile>
     </profiles>
-
-
 </project>
