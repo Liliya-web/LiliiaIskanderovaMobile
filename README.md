@@ -1,3 +1,4 @@
+#LiliiaIskanderovaMobile
 Mobile tests for native and web applications
 
 Change "deviceName" parameter in src/test/resources/nativeTNG.xml and src/test/resources/webTNG.xml to your device name
