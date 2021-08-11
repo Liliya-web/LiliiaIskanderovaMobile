@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import setup.BaseTest;
-import testData.CredentialsGenerating;
 import testData.DataProvider;
 
 import java.awt.*;
@@ -20,6 +19,32 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class nativeMobileTests extends BaseTest {
+    @AfterMethod(groups = {"native"}, alwaysRun = true)
+    public void tearDown() {
+        System.out.println("After method: navigate back and clear fields");
+        getDriver().navigate().back();
+        nativeLoginPageObject.getEmailField().clear();
+        nativeLoginPageObject.getPasswordField().clear();
+    }
+
+    @Test(groups = {"native"}, description = "Test checks an ability to register and log in with email and password",
+            dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
+    public void registerAndLoginWithEmailAndPasswordNativeTest(String email, String userName, String password,
+                                                               String finalPageName)
+            throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+        registerNewAccount(email, userName, password);
+        System.out.println("Logging in");
+        nativeLoginPageObject.getEmailField().sendKeys(email);
+        nativeLoginPageObject.getPasswordField().sendKeys(password);
+        nativeLoginPageObject.getSignInBtn().click();
+        System.out.println("User logged in\nVerifying that user is on Budget Activity page");
+        (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions
+                .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
+        assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
+                .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
+        System.out.println("Page verified\nTest DONE");
+    }
+
     @Test(groups = {"native"}, description = "Test checks an ability to register and log in with username and password",
             dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
     public void registerAndLoginWithUsernameAndPasswordNativeTest(String email, String userName, String password,
@@ -35,8 +60,7 @@ public class nativeMobileTests extends BaseTest {
                 .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
                 .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
-        System.out.println("Page verified");
-        System.out.println("Test DONE");
+        System.out.println("Page verified\nTest DONE");
     }
 
 //    @Test(groups = {"native"}, description = "Test checks that user have not an ability to sign in without credentials",
@@ -90,9 +114,4 @@ public class nativeMobileTests extends BaseTest {
         nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
         System.out.println("New account is registered");
     }
-//    private void navigateBackAndClearFields() {
-//        getDriver().navigate().back();
-//        nativeLoginPageObject.getEmailField().clear();
-//        nativeLoginPageObject.getPasswordField().clear();
-//    }
 }

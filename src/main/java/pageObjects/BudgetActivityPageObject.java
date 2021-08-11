@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 @Getter
 public class BudgetActivityPageObject extends AbstractPageObject{
     @AndroidFindBy(xpath = "//android.widget.FrameLayout[2]//android.widget.TextView")
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[1]")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeOther[@name='Budget']")
     private WebElement budgetActivityTitle;
 
     public BudgetActivityPageObject(AppiumDriver appiumDriver) {
