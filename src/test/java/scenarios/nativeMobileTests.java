@@ -1,60 +1,32 @@
 package scenarios;
 
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import Steps.NativeSteps;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 import testData.DataProvider;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class nativeMobileTests extends BaseTest {
-    @Test(groups = {"native"}, description = "Test checks an ability to register and log in with email and password",
-            dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
-    public void registerAndLoginWithEmailAndPasswordNativeTest(String email, String userName, String password,
-                                                               String finalPageName)
-            throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        registerNewAccount(email, userName, password);
-        System.out.println("Logging in");
-        nativeLoginPageObject.getEmailField().sendKeys(email);
-        nativeLoginPageObject.getPasswordField().sendKeys(password);
-        nativeLoginPageObject.getSignInBtn().click();
-        System.out.println("User logged in\nVerifying that user is on Budget Activity page");
-        (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions
-                .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
-        assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
-                .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
-        System.out.println("Page verified");
-        navigateBackAndClearLoginPageFields();
-        System.out.println("Test DONE");
+
+    NativeSteps nativeSteps;
+
+    @BeforeMethod(alwaysRun = true)
+    public void setUp() {
+        System.out.println("Init steps");
+        nativeSteps = new NativeSteps();
     }
 
-    @Test(groups = {"native"}, description = "Test checks an ability to register and log in with username and password",
+    @Test(groups = {"native"}, description = "Test checks an ability to register and log in with email/username and password",
             dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
-    public void registerAndLoginWithUsernameAndPasswordNativeTest(String email, String userName, String password,
-                                                                  String finalPageName)
-            throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        registerNewAccount(email, userName, password);
-        System.out.println("Logging in");
-        nativeLoginPageObject.getEmailField().sendKeys(userName);
-        nativeLoginPageObject.getPasswordField().sendKeys(password);
-        nativeLoginPageObject.getSignInBtn().click();
-        System.out.println("User logged in\nVerifying that user is on Budget Activity page");
-        (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions
-                .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
-        assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
-                .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
-        System.out.println("Page verified");
-        navigateBackAndClearLoginPageFields();
+    public void registerAndLoginWithEmailAndPasswordNativeTest(String emailOrUserName, String email, String userName, String password,
+                                                               String finalPageName) {
+        nativeSteps.registerNewAccount(email, userName, password);
+        if (emailOrUserName == "email") {
+            nativeSteps.login(email, password);
+        } else {
+            nativeSteps.login(userName, password);
+        }
+        nativeSteps.verifyThatUserIsOnBudgetActivityPage(finalPageName);
         System.out.println("Test DONE");
     }
 
@@ -95,24 +67,4 @@ public class nativeMobileTests extends BaseTest {
 ////                .contains(expectedMessage);
 ////        System.out.println("Message verified\nTest DONE");
 //    }
-
-    private void registerNewAccount(String email, String userName, String password) {
-        System.out.println("Click Register new account button at login page");
-        nativeLoginPageObject.getRegisterNewAccountBtn().click();
-        System.out.println("Fill registration fields");
-        nativeRegistrationPageObject.getRegistrationEmailField().sendKeys(email);
-        nativeRegistrationPageObject.getRegistrationUsernameField().sendKeys(userName);
-        nativeRegistrationPageObject.getRegistrationPasswordField().sendKeys(password);
-        nativeRegistrationPageObject.getRegistrationConfirmPasswordField().sendKeys(password);
-        nativeRegistrationPageObject.getConfirmationCheckbox().click();
-        System.out.println("Register new account");
-        nativeRegistrationPageObject.getRegisterNewAccountBtn().click();
-        System.out.println("New account is registered");
-    }
-
-    private void navigateBackAndClearLoginPageFields() {
-        getDriver().navigate().back();
-        nativeLoginPageObject.getEmailField().clear();
-        nativeLoginPageObject.getPasswordField().clear();
-    }
 }
