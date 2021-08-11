@@ -5,6 +5,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public interface IDriver {
 
-    MobileDriver getDriver();
+    public MobileDriver getDriver();
 
 }
