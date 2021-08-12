@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class nativeMobileTests extends BaseTest {
     @AfterMethod(groups = {"native"}, alwaysRun = true)
-    public void tearDown() {
+    public void postConditions() {
         System.out.println("After method: navigate back and clear fields");
         getDriver().navigate().back();
         nativeLoginPageObject.getEmailField().clear();
