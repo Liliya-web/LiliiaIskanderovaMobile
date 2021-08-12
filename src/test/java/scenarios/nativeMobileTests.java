@@ -30,8 +30,7 @@ public class nativeMobileTests extends BaseTest {
     @Test(groups = {"native"}, description = "Test checks an ability to register and log in with email and password",
             dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
     public void registerAndLoginWithEmailAndPasswordNativeTest(String email, String userName, String password,
-                                                               String finalPageName)
-            throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+                                                               String finalPageName) {
         registerNewAccount(email, userName, password);
         System.out.println("Logging in");
         nativeLoginPageObject.getEmailField().sendKeys(email);
@@ -48,8 +47,7 @@ public class nativeMobileTests extends BaseTest {
     @Test(groups = {"native"}, description = "Test checks an ability to register and log in with username and password",
             dataProvider = "registerAndLoginDataProvider", dataProviderClass = DataProvider.class)
     public void registerAndLoginWithUsernameAndPasswordNativeTest(String email, String userName, String password,
-                                                                  String finalPageName)
-            throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+                                                                  String finalPageName) {
         registerNewAccount(email, userName, password);
         System.out.println("Logging in");
         nativeLoginPageObject.getEmailField().sendKeys(userName);
