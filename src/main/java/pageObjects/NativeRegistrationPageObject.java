@@ -26,11 +26,11 @@ public class NativeRegistrationPageObject extends AbstractPageObject {
     @iOSXCUITFindBy(xpath = TYPE_SWITCH + "[@label='I read agreaments and agree wit it']")
     private WebElement confirmationCheckbox;
     @AndroidFindBy(id = PACKAGE_NAME + "id/register_new_account_button")
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@value='Register new account']")
+    @iOSXCUITFindBy(xpath = TYPE_STATIC_TEXT + "[@value='Register new account']")
     private WebElement registerNewAccountBtn;
 
     public NativeRegistrationPageObject(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
-        PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
+        PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
 }

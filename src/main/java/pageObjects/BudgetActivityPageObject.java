@@ -16,6 +16,6 @@ public class BudgetActivityPageObject extends AbstractPageObject{
 
     public BudgetActivityPageObject(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
-        PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
+        PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
 }

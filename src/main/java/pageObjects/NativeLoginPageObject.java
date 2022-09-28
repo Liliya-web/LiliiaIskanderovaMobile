@@ -23,6 +23,6 @@ public class NativeLoginPageObject extends AbstractPageObject {
 
     public NativeLoginPageObject(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
-        PageFactory.initElements( new AppiumFieldDecorator(appiumDriver), this);
+        PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
 }

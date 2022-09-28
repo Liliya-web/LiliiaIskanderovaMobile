@@ -40,7 +40,7 @@ public class nativeMobileTests extends BaseTest {
         (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions
                 .refreshed(ExpectedConditions.visibilityOf(budgetActivityPageObject.getBudgetActivityTitle())));
         assertThat(budgetActivityPageObject.getBudgetActivityTitle().getText())
-                .as("User is not on" + finalPageName + "page").isEqualTo(finalPageName);
+                .as("User is not on " + finalPageName + " page").isEqualTo(finalPageName);
         System.out.println("Page verified\nTest DONE");
     }
 

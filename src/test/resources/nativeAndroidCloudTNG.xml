@@ -1,10 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Android native mobile testing Suite for EPAM Mobile Cloud">
-    <parameter name="appType" value="native"></parameter>
-    <parameter name="udid" value="00008020-00094961369A002E"></parameter>
-    <parameter name="platformName" value="Android"></parameter>
-    <parameter name="appPackage" value="platkovsky.alexey.epamtestapp"></parameter>
-    <parameter name="appActivity" value="activities.LoginActivity"></parameter>
+    <parameter name="appType" value="native"/>
+    <parameter name="udid" value="00008020-00094961369A002E"/>
+    <parameter name="platformName" value="Android"/>
+    <parameter name="appPackage" value="platkovsky.alexey.epamtestapp"/>
+    <parameter name="appActivity" value="activities.LoginActivity"/>
     <test name="Android cloud Native tests">
         <groups>
             <run>
