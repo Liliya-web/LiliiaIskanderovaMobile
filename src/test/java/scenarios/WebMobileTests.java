@@ -2,13 +2,12 @@ package scenarios;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageObjects.*;
+import pageObjects.WebPageObject;
 import setup.BaseTest;
 import testData.DataProvider;
 
-public class webMobileTests extends BaseTest {
+public class WebMobileTests extends BaseTest {
 
     private WebPageObject webPageObject;
 

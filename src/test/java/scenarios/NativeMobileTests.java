@@ -1,12 +1,12 @@
 package scenarios;
 
-import Steps.NativeSteps;
+import steps.NativeSteps;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 import testData.DataProvider;
 
-public class nativeMobileTests extends BaseTest {
+public class NativeMobileTests extends BaseTest {
 
     NativeSteps nativeSteps;
 

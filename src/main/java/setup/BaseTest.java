@@ -2,8 +2,10 @@ package setup;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.*;
-import pageObjects.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -22,13 +24,13 @@ public class BaseTest implements IDriver {
     @Parameters({"platformName", "deviceName", "browserName", "app"})
     @BeforeMethod(alwaysRun = true)
     public void setUp(String platformName, String deviceName, @Optional("") String browserName,
-                      @Optional("") String app) throws Exception {
+                      @Optional("") String app) {
         System.out.println("Before: setting up Appium Driver");
         setAppiumDriver(platformName, deviceName, browserName, app);
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown() throws Exception {
+    public void tearDown() {
         System.out.println("After");
         appiumDriver.closeApp();
     }
@@ -53,6 +55,5 @@ public class BaseTest implements IDriver {
 
         // Timeouts tuning
         appiumDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-
     }
 }
